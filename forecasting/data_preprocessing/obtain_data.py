@@ -3,7 +3,7 @@ import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
 from statsmodels.tsa.stattools import adfuller
-from data_p.get_filepaths import get_filepaths
+from get_filepaths import get_filepaths
 import numpy as np
 
 def load_csvs(file_path):
