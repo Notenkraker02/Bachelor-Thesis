@@ -33,14 +33,14 @@ def in_sample_forecast(X_complete, Y_complete, X_ridge):
     Y_complete = Y_complete.to_numpy().ravel()
 
     # Local Linear Forest
-    LLF_parameters = hypertune_model("LocalLinearForest", X_complete, Y_complete, X_ridge, n_trials = 100)
+    LLF_parameters = hypertune_model("LocalLinearForest", X_complete, Y_complete, X_ridge, n_trials = 50)
     LLF = LocalLinearForestRegressor(**LLF_parameters)
     LLF.fit(X_complete, Y_complete, X_ridge)
     LLF_pred = LLF.predict_LLF(X_complete, X_ridge)
     predictions['LLF'] = pd.Series(LLF_pred, index=Y_complete_dates)
 
     # Random Forest
-    RF_parameters = hypertune_model("RandomForest", X_complete, Y_complete, n_trials = 100)    
+    RF_parameters = hypertune_model("RandomForest", X_complete, Y_complete, n_trials = 50)    
     RF_pred = train_test_rf(X_complete, Y_complete, X_complete, **RF_parameters)
     predictions['RF'] = pd.Series(RF_pred, index=Y_complete_dates)
 

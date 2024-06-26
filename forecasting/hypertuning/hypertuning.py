@@ -35,8 +35,9 @@ def objective(trial, model_name, X_train, Y_train, X_ridge=None):
     return mean_mse
 
 def hypertune_model(model_name, X_train, Y_train, X_ridge=None, n_trials = 100):
-    study = optuna.create_study(direction='minimize', pruner=SuccessiveHalvingPruner(), sampler=TPESampler(seed = 42))
+    print()
     optuna.logging.set_verbosity(optuna.logging.WARNING)
+    study = optuna.create_study(direction='minimize', pruner=SuccessiveHalvingPruner(), sampler=TPESampler(seed = 42))
     study.optimize(lambda trial: objective(trial, model_name, X_train, Y_train, X_ridge), n_trials=n_trials, show_progress_bar=True, n_jobs =-1)
     best_params = study.best_params
     print(model_name, best_params)
