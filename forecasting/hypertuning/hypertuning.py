@@ -11,7 +11,7 @@ from forecasting.data_preprocessing.obtain_data import obtainData
 def objective(trial, model_name, X_train, Y_train, X_ridge=None):
     if model_name == "RandomForest":
         parameters = {
-            'n_estimators': trial.suggest_int('n_estimators', 100, 500),
+            'n_estimators': trial.suggest_categorical('n_estimators', [100,200, 300, 400, 500]),
             'max_depth': trial.suggest_int('max_depth', 5, 10),
             'min_samples_split': trial.suggest_int('min_samples_split', 4, 10),
             'min_samples_leaf': trial.suggest_int('min_samples_leaf', 2, 5)
@@ -19,11 +19,11 @@ def objective(trial, model_name, X_train, Y_train, X_ridge=None):
         model = RandomForestRegressor(**parameters)
     elif model_name == "LocalLinearForest":
         parameters = {
-            'n_estimators': trial.suggest_int('n_estimators', 100, 500),
+            'n_estimators': trial.suggest_categorical('n_estimators', [100,200, 300, 400, 500]),
             'max_depth': trial.suggest_int('max_depth', 5, 10),
             'min_samples_split': trial.suggest_int('min_samples_split', 4, 10),
             'min_samples_leaf': trial.suggest_int('min_samples_leaf', 2, 5),
-            'lam' : trial.suggest_float('lam', 0.1, 10)
+            'lam' : trial.suggest_categorical('lam', [0.01, 0.1,0.25, 0.5, 0.75, 1,])
         }
         model = LocalLinearForestRegressor(**parameters)
         if X_ridge is not None:

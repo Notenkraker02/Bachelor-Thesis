@@ -10,7 +10,7 @@ from forecasting.Models.GJR_GARCH import predict_GJR
 from forecasting.Models.HAR_RV import predict_har
 from forecasting.utils.feature_importance import plot_feature_importance
 
-def forecast(X_complete, Y_complete, X_ridge, initial_train_size, feature = True):
+def forecast(coin, X_complete, Y_complete, X_ridge, initial_train_size, feature = True):
     predictions = {}
     LLF_pred = []
     RF_pred = []
@@ -34,7 +34,7 @@ def forecast(X_complete, Y_complete, X_ridge, initial_train_size, feature = True
     X_tune = X_complete.iloc[:train_size].to_numpy()
     Y_tune = Y_complete.iloc[:train_size].to_numpy().ravel()
     X_ridge_tune = X_ridge.iloc[:train_size].to_numpy()
-    LLF_parameters = hypertune_model("LocalLinearForest", X_tune, Y_tune, X_ridge_tune, 50)
+    LLF_parameters = hypertune_model("LocalLinearForest", X_tune, Y_tune, X_ridge_tune, n_trials = 50)
     RF_parameters = hypertune_model("RandomForest", X_tune, Y_tune, n_trials = 50)
 
     for i in notebook.tqdm(range(test_size)):
@@ -70,7 +70,7 @@ def forecast(X_complete, Y_complete, X_ridge, initial_train_size, feature = True
 
     if feature: 
        feature_importance = feature_importance / test_size
-       plot_feature_importance(feature_importance, feature_names, threshold = 0.005)
+       plot_feature_importance(feature_importance, feature_names, coin, threshold = 0.005)
 
     predictions['LLF'] = pd.Series(LLF_pred, index=Y_dates)
     predictions['RF'] = pd.Series(RF_pred, index=Y_dates)

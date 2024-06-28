@@ -4,11 +4,6 @@ from scipy.stats import skew
 
 def normalized_errors(predictions, Y_test):
     Y_test = Y_test.squeeze()
-
-    if isinstance(Y_test, pd.DataFrame):
-        Y_test = Y_test.iloc[:, 0]
-    if isinstance(predictions, pd.DataFrame):
-        predictions = predictions.iloc[:, 0]
     return (np.log(predictions / Y_test)) ** 2
 
 def initialize_errors():
@@ -18,18 +13,20 @@ def collect_errors(predictions, Y_test, coin, large_cap_coins, mid_cap_coins, la
     for model, model_predictions in predictions.items():
         norm_errors = normalized_errors(model_predictions, Y_test)
         if coin in large_cap_coins:
-            large_cap_errors[model].append(norm_errors)
+            large_cap_errors[model].append(np.array(norm_errors))  
         elif coin in mid_cap_coins:
-            mid_cap_errors[model].append(norm_errors)
+            mid_cap_errors[model].append(np.array(norm_errors))    
+    return large_cap_errors, mid_cap_errors
 
 def compute_statistics(errors):
     statistics = {}
     for model, error_list in errors.items():
-        combined_errors = pd.concat(error_list, axis=0, ignore_index=True)
+        error_list = np.concatenate(error_list)
+        error_list = np.array(error_list)  # Ensure error_list is a NumPy array
         statistics[model] = {
-            'RMSLE': np.sqrt(combined_errors.mean()),
-            'std': combined_errors.std(),
-            'skew': skew(combined_errors.dropna())
+            'RMSLE': np.sqrt(error_list.mean()),
+            'std': error_list.std(),
+            'skew': skew(error_list)
         }
     return statistics
 
