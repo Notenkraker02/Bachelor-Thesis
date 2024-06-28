@@ -23,7 +23,7 @@ def objective(trial, model_name, X_train, Y_train, X_ridge=None):
             'max_depth': trial.suggest_int('max_depth', 5, 10),
             'min_samples_split': trial.suggest_int('min_samples_split', 4, 10),
             'min_samples_leaf': trial.suggest_int('min_samples_leaf', 2, 5),
-            'lam' : trial.suggest_categorical('lam', [0.01, 0.1,0.25, 0.5, 0.75, 1,])
+            'lam' : trial.suggest_categorical('lam', [0.01, 0.05, 0.1, 0.2])
         }
         model = LocalLinearForestRegressor(**parameters)
         if X_ridge is not None:

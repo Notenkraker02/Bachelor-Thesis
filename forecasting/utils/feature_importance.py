@@ -21,7 +21,6 @@ def plot_feature_importance(importances, feature_names, coin_name, threshold=0):
     
     # Plot the feature importances
     plt.figure(figsize=(10, 8))
-    plt.title(f"Feature Importances for {coin_name}")
     plt.barh(range(len(significant_indices)), importances[significant_indices], align="center")
     plt.yticks(range(len(significant_indices)), [feature_names[i] for i in significant_indices])
     plt.gca().invert_yaxis()

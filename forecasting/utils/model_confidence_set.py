@@ -17,7 +17,7 @@ def get_mcs(predictions, Y_test, error):
     errors = pd.DataFrame(errors)
 
     ## Use block_len = 7 from the rule of thumb (cube root of number of observations)
-    mcs = ModelConfidenceSet(errors, n_boot = 5000, alpha = 0.05, block_len= 7)
+    mcs = ModelConfidenceSet(errors, n_boot = 5000, alpha = 0.1, block_len= 7)
     mcs.compute()
     mcs_results = mcs.results()
     included_models = {model: (mcs_results.loc[model, 'status'] == 'included') for model in predictions.keys()}
