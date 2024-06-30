@@ -41,3 +41,6 @@ In the simulation study, we perform three simulations to assess the performance 
 
 ## Acknowledgements
 This project includes code adapted from [Local Linear Forest](https://github.com/HoustonJ2013/LocalLinearForest). We modified the original code to fit our project needs. The adaptations were made such that the local regression can utilize a different dataset than those used for splitting in the decision trees.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
