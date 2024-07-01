@@ -34,8 +34,8 @@ def forecast(coin, X_complete, Y_complete, X_ridge, initial_train_size, feature 
     X_tune = X_complete.iloc[:train_size].to_numpy()
     Y_tune = Y_complete.iloc[:train_size].to_numpy().ravel()
     X_ridge_tune = X_ridge.iloc[:train_size].to_numpy()
-    LLF_parameters = hypertune_model("LocalLinearForest", X_tune, Y_tune, X_ridge_tune, n_trials = 50)
-    RF_parameters = hypertune_model("RandomForest", X_tune, Y_tune, n_trials = 50)
+    LLF_parameters = hypertune_model("LocalLinearForest", X_tune, Y_tune, X_ridge_tune, n_trials = 1)
+    RF_parameters = hypertune_model("RandomForest", X_tune, Y_tune, n_trials = 1)
 
     for i in notebook.tqdm(range(test_size)):
         X_train_split = X_complete.iloc[:train_size + i]

@@ -14,6 +14,8 @@ def get_mcs(predictions, Y_test, error):
             errors[model] = (Y_test/pred) - np.log(Y_test/pred) - 1
         elif error == "Utility":
             errors[model] = - (0.08 * (np.sqrt(Y_test/pred)) - 0.04 * (Y_test/pred))
+        elif error == "Phase Error":
+            errors[model] = predictions[model]
     errors = pd.DataFrame(errors)
 
     ## Use block_len = 7 from the rule of thumb (cube root of number of observations)
@@ -23,11 +25,13 @@ def get_mcs(predictions, Y_test, error):
     included_models = {model: (mcs_results.loc[model, 'status'] == 'included') for model in predictions.keys()}
     return included_models
 
-def update_mcs_count(predictions, Y_test, mcs_counts_rmse=None, mcs_counts_mae = None, mcs_counts_qlike=None, mcs_counts_utility=None):
+def update_mcs_count(predictions, Y_test, mcs_counts_rmse=None, mcs_counts_mae = None, mcs_counts_qlike=None, mcs_counts_utility=None, mcs_counts_phase = None):
     included_models_rmse = get_mcs(predictions, Y_test, "RMSE")
     included_models_mae = get_mcs(predictions, Y_test, "MAE")
     included_models_qlike = get_mcs(predictions, Y_test, 'QLIKE')
     included_models_utility = get_mcs(predictions, Y_test, "Utility")
+    included_models_phase = get_mcs(predictions, Y_test, "Phase Error")
+    print(included_models_phase)
 
     for model in predictions.keys():
         if included_models_rmse[model] and mcs_counts_rmse is not None:
@@ -38,5 +42,7 @@ def update_mcs_count(predictions, Y_test, mcs_counts_rmse=None, mcs_counts_mae =
             mcs_counts_qlike[model] += 1
         if included_models_utility[model] and mcs_counts_utility is not None:
             mcs_counts_utility[model] += 1
+        if included_models_phase[model] and mcs_counts_phase is not None:
+            mcs_counts_phase[model] += 1
 
-    return mcs_counts_rmse, mcs_counts_mae, mcs_counts_qlike, mcs_counts_utility
+    return mcs_counts_rmse, mcs_counts_mae, mcs_counts_qlike, mcs_counts_utility, mcs_counts_phase
