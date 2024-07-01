@@ -50,7 +50,7 @@ def run_hypertune(n_trials):
     results_llf = pd.DataFrame(columns=['Coin'])
 
     for coin in tqdm(coins):
-        X, Y, X_ridge = obtainData(coin)  # Assuming obtainData returns X, Y, X_ridge
+        X, Y, X_ridge = obtainData(coin) 
         initial_train_size = 0.7
         train_size = int(len(X) * initial_train_size)
         X_train_split = X.iloc[:train_size].to_numpy()

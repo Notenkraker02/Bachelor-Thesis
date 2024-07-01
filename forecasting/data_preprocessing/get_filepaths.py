@@ -1,4 +1,5 @@
 def get_filepaths(coin):
+
   daily_data = None
   hourly_data = None
 

@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from scipy.stats import skew
 
@@ -22,7 +21,7 @@ def compute_statistics(errors):
     statistics = {}
     for model, error_list in errors.items():
         error_list = np.concatenate(error_list)
-        error_list = np.array(error_list)  # Ensure error_list is a NumPy array
+        error_list = np.array(error_list) 
         statistics[model] = {
             'RMSLE': np.sqrt(error_list.mean()),
             'std': error_list.std(),

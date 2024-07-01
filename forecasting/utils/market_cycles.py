@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
-from scipy.stats import f_oneway, skew, kruskal
+from scipy.stats import kruskal
 import scikit_posthocs as sp
-from IPython.utils import io
 
 def define_market_phases(prices, window=30, threshold=0.05):
     moving_avg = prices.rolling(window).mean()

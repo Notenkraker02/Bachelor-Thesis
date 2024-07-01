@@ -25,8 +25,6 @@ def test_stationarity(feature_set):
         if feature_set[column].min() != feature_set[column].max():
             result = adfuller(feature_set[column])
             p_value = result[1]
-
-            # Check the p-value
             if p_value <= 0.05:
                 stationary_features.append(column)
             else:
@@ -41,7 +39,6 @@ def handle_non_stationarity(feature_set):
     while non_stationary_features:
         differencing = differencing + 1
         for feature in non_stationary_features:
-            # Take the first difference
             feature_set[feature] = feature_set[feature].diff().dropna()
 
         feature_set = feature_set.iloc[1:]
